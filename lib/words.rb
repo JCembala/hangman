@@ -6,21 +6,32 @@
 class Words
   def initialize(file_path)
     @file_path = file_path
+    @words = []
   end
 
   def randomize_word
-    p read_words_from_file
+    load_words_from_file if @words.empty?
+    select_random_word
   end
 
   private
 
-  def read_words_from_file
-    words = []
+  def load_words_from_file
+    @words = []
     file_data = File.readlines(@file_path)
     file_data.each do |word|
       clear_word = word.gsub(/\s+/, '')
-      words.push(clear_word) unless clear_word.length != 5
+      @words.push(clear_word) unless clear_word.length != 5
     end
-    words
+  end
+
+  def select_random_word
+    return '' if @words.empty?
+
+    len = @words.length - 1
+    randomized_index = rand(len)
+    word = @words[randomized_index]
+    @words.delete_at(randomized_index)
+    word
   end
 end
