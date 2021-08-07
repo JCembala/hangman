@@ -16,6 +16,8 @@ class Words
 
   private
 
+  # Loads and clears words from file
+  # removing whitespaces and words that don't match 5 character long
   def load_words_from_file
     @words = []
     file_data = File.readlines(@file_path)
@@ -25,6 +27,8 @@ class Words
     end
   end
 
+  # Returns one random word from @words array
+  # also removes that word at specific index from array
   def select_random_word
     return '' if @words.empty?
 
