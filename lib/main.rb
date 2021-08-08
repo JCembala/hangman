@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'words'
+require_relative 'game'
 
-words = Words.new('wordslist.txt')
-words.randomize_word
+game = Game.new
+p game.start
