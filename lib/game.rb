@@ -8,6 +8,7 @@ class Game
     @word = ''
     @hidden_word = ''
     @guess_character = ''
+    @turn = 0
   end
 
   def start
@@ -19,15 +20,16 @@ class Game
       ask_for_guess
       puts @hidden_word
 
-      break if game_over?
+      break if game_over
     end
 
-    puts 'Game over!'
+    print_game_over_message
   end
 
   private
 
   def setup_game
+    @turn = 0
     words = Words.new('wordslist.txt')
     @word = words.randomize_word
     create_hidden_word
@@ -74,6 +76,7 @@ class Game
 
       @hidden_word[index] = char
     end
+    @turn += 1
   end
 
   def create_hidden_word
@@ -82,9 +85,15 @@ class Game
     end
   end
 
-  def game_over?
-    return true if @hidden_word == @word
+  def game_over
+    return :win if @hidden_word == @word
+    return :lose if @turn >= 12
 
     false
+  end
+
+  def print_game_over_message
+    puts 'Game over. You won!' if game_over == :win
+    puts 'Game over. You lose!' if game_over == :lose
   end
 end
