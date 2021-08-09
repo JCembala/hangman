@@ -18,15 +18,6 @@ class Game
     puts @hidden_word
   end
 
-  def process_guess
-    return 'only letters allowed' unless @guess_character.match?(/[[:alpha:]]/)
-
-    return 'too long (1 character allowed)' if @guess_character.length > 1
-
-    @guess_character.upcase!
-    @guess_character
-  end
-
   private
 
   def setup_game
@@ -50,11 +41,20 @@ class Game
       print 'Your guess letter is: '
       @guess_character = gets.chomp
 
-      condition = process_guess
+      condition = correct_guess
       return if condition.length == 1
 
       puts condition
     end
+  end
+
+  def correct_guess
+    return 'only letters allowed' unless @guess_character.match?(/[[:alpha:]]/)
+
+    return 'too long (1 character allowed)' if @guess_character.length > 1
+
+    @guess_character.upcase!
+    @guess_character
   end
 
   def create_hidden_word
