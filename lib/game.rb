@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frozen_string_literal: false
 
 require_relative 'words'
 
@@ -6,15 +6,16 @@ require_relative 'words'
 class Game
   def initialize
     @word = ''
+    @hidden_word = ''
     @guess_character = ''
   end
 
   def start
     setup_game
     show_welcome_message
-    ask_for_guess
-    puts @guess_character
     puts @word
+    ask_for_guess
+    puts @hidden_word
   end
 
   def process_guess
@@ -31,6 +32,7 @@ class Game
   def setup_game
     words = Words.new('wordslist.txt')
     @word = words.randomize_word
+    create_hidden_word
     @word.upcase!
   end
 
@@ -52,6 +54,12 @@ class Game
       return if condition.length == 1
 
       puts condition
+    end
+  end
+
+  def create_hidden_word
+    @word.length.times do
+      @hidden_word << '_'
     end
   end
 end
