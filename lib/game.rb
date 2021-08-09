@@ -13,6 +13,16 @@ class Game
     setup_game
     show_welcome_message
     ask_for_guess
+    puts @guess
+    puts @word
+  end
+
+  def process_guess
+    return 'only letters allowed' unless @guess.match?(/[[:alpha:]]/)
+
+    return 'too long (1 character allowed)' if @guess.length > 1
+
+    @guess.upcase!
     @guess
   end
 
@@ -21,6 +31,7 @@ class Game
   def setup_game
     words = Words.new('wordslist.txt')
     @word = words.randomize_word
+    @word.upcase!
   end
 
   def show_welcome_message
@@ -33,7 +44,14 @@ class Game
   end
 
   def ask_for_guess
-    print 'Your guess letter is: '
-    @guess = gets.chomp
+    loop do
+      print 'Your guess letter is: '
+      @guess = gets.chomp
+
+      condition = process_guess
+      return if condition.length == 1
+
+      puts condition
+    end
   end
 end
