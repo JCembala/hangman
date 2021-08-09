@@ -33,12 +33,15 @@ class Game
     puts 'We randomize one 5 to 12 character word and you have to guess it'
     puts 'If you can guess the word before you will be hanged. You win.'
     puts 'Otherwise, you lose.'
+    puts 'Guess:'
+    puts '1. One character long'
+    puts '2. Only letters allowed'
     puts '----------------------------------------------------------------'
   end
 
   def ask_for_guess
     loop do
-      print 'Your guess letter is: '
+      print 'Enter your guess: '
       @guess_character = gets.chomp
 
       condition = correct_guess
