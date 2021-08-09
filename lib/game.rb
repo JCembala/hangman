@@ -66,6 +66,8 @@ class Game
 
     return 'too long (1 character allowed)' if @guess_character.length > 1
 
+    return 'guess duplicated!' if @hidden_word.include? @guess_character.upcase
+
     @guess_character.upcase!
     @guess_character
   end
