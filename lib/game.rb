@@ -6,24 +6,24 @@ require_relative 'words'
 class Game
   def initialize
     @word = ''
-    @guess = ''
+    @guess_character = ''
   end
 
   def start
     setup_game
     show_welcome_message
     ask_for_guess
-    puts @guess
+    puts @guess_character
     puts @word
   end
 
   def process_guess
-    return 'only letters allowed' unless @guess.match?(/[[:alpha:]]/)
+    return 'only letters allowed' unless @guess_character.match?(/[[:alpha:]]/)
 
-    return 'too long (1 character allowed)' if @guess.length > 1
+    return 'too long (1 character allowed)' if @guess_character.length > 1
 
-    @guess.upcase!
-    @guess
+    @guess_character.upcase!
+    @guess_character
   end
 
   private
@@ -46,7 +46,7 @@ class Game
   def ask_for_guess
     loop do
       print 'Your guess letter is: '
-      @guess = gets.chomp
+      @guess_character = gets.chomp
 
       condition = process_guess
       return if condition.length == 1
