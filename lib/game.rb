@@ -45,10 +45,11 @@ class Game
       @guess_character = gets.chomp
 
       condition = correct_guess
-      return if condition.length == 1
+      break if condition.length == 1
 
       puts condition
     end
+    process_guess
   end
 
   def correct_guess
@@ -58,6 +59,14 @@ class Game
 
     @guess_character.upcase!
     @guess_character
+  end
+
+  def process_guess
+    @word.split('').each_with_index do |char, index|
+      next unless @guess_character.match? char
+
+      @hidden_word[index] = char
+    end
   end
 
   def create_hidden_word
