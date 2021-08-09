@@ -14,8 +14,15 @@ class Game
     setup_game
     show_welcome_message
     puts @word
-    ask_for_guess
-    puts @hidden_word
+
+    loop do
+      ask_for_guess
+      puts @hidden_word
+
+      break if game_over?
+    end
+
+    puts 'Game over!'
   end
 
   private
@@ -73,5 +80,11 @@ class Game
     @word.length.times do
       @hidden_word << '_'
     end
+  end
+
+  def game_over?
+    return true if @hidden_word == @word
+
+    false
   end
 end
