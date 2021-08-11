@@ -14,7 +14,6 @@ class Game
   def start
     setup_game
     show_welcome_message
-    puts @word
 
     loop do
       ask_for_guess
