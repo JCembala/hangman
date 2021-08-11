@@ -14,6 +14,8 @@ class Game
   def start
     setup_game
     show_welcome_message
+    puts 'Press [ENTER] to start...'
+    gets
 
     loop do
       ask_for_guess
