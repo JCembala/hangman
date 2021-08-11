@@ -18,8 +18,9 @@ class Game
     gets
 
     loop do
-      ask_for_guess
+      system 'clear'
       puts @hidden_word
+      ask_for_guess
 
       break if game_over
     end
