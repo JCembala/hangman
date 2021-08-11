@@ -19,6 +19,8 @@ class Game
 
     loop do
       system 'clear'
+      puts print_hangman
+      puts
       puts @hidden_word
       ask_for_guess
 
@@ -99,5 +101,15 @@ class Game
   def print_game_over_message
     puts 'Game over. You won!' if game_over == :win
     puts 'Game over. You lose!' if game_over == :lose
+  end
+
+  def print_hangman
+    "-----------  \n"\
+    "|         |  \n"\
+    "|         O  \n"\
+    "|       --|--\n"\
+    "|         |  \n"\
+    "|        / \\ \n"\
+    "|____________\n"
   end
 end
