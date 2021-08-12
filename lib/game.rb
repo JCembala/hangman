@@ -1,6 +1,7 @@
 # frozen_string_literal: false
 
 require_relative 'words'
+require_relative 'graphics'
 
 # Manages game: starting, looping, ending
 class Game
@@ -18,10 +19,7 @@ class Game
     gets
 
     loop do
-      system 'clear'
-      puts print_hangman
-      puts
-      puts @hidden_word
+      print_ui
       ask_for_guess
 
       break if game_over
@@ -99,17 +97,15 @@ class Game
   end
 
   def print_game_over_message
+    print_ui
     puts 'Game over. You won!' if game_over == :win
     puts 'Game over. You lose!' if game_over == :lose
   end
 
-  def print_hangman
-    "-----------  \n"\
-    "|         |  \n"\
-    "|         O  \n"\
-    "|       --|--\n"\
-    "|         |  \n"\
-    "|        / \\ \n"\
-    "|____________\n"
+  def print_ui
+    system 'clear'
+    puts Graphics.print_hangman @turn
+    puts
+    puts @hidden_word
   end
 end
