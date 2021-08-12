@@ -5,6 +5,8 @@ require_relative 'graphics'
 
 # Manages game: starting, looping, ending
 class Game
+  MAX_GAME_TURN = 12
+
   def initialize
     @word = ''
     @hidden_word = ''
@@ -91,7 +93,7 @@ class Game
 
   def game_over
     return :win if @hidden_word == @word
-    return :lose if @turn >= 12
+    return :lose if @turn >= MAX_GAME_TURN
 
     false
   end
