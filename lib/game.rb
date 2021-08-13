@@ -11,7 +11,7 @@ class Game
     @word = ''
     @hidden_word = ''
     @guess_character = ''
-    @turn = 0
+    @wrong_turns = 0
   end
 
   def start
@@ -33,7 +33,7 @@ class Game
   private
 
   def setup_game
-    @turn = 0
+    @wrong_turns = 0
     words = Words.new('wordslist.txt')
     @word = words.randomize_word
     create_hidden_word
@@ -77,12 +77,16 @@ class Game
   end
 
   def process_guess
+    copy_hidden_word = @hidden_word.clone
     @word.split('').each_with_index do |char, index|
       next unless @guess_character.match? char
 
       @hidden_word[index] = char
     end
-    @turn += 1
+
+    return if @hidden_word != copy_hidden_word
+
+    @wrong_turns += 1
   end
 
   def create_hidden_word
@@ -93,7 +97,7 @@ class Game
 
   def game_over
     return :win if @hidden_word == @word
-    return :lose if @turn >= MAX_GAME_TURN
+    return :lose if @wrong_turns >= MAX_GAME_TURN
 
     false
   end
@@ -106,7 +110,7 @@ class Game
 
   def print_ui
     system 'clear'
-    puts Graphics.print_hangman @turn
+    puts Graphics.print_hangman @wrong_turns
     puts
     puts @hidden_word
   end
