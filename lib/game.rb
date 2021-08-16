@@ -33,6 +33,15 @@ class Game
 
   private
 
+  def to_yaml
+    YAML.dump ({
+      word: @word,
+      hidden_words: @hidden_word,
+      guess_character: @guess_character,
+      wrong_turns: @wrong_turns
+    })
+  end
+
   def setup_game
     @wrong_turns = 0
     words = Words.new('wordslist.txt')
@@ -54,16 +63,26 @@ class Game
   end
 
   def ask_for_guess
-    loop do
-      print 'Enter your guess: '
-      @guess_character = gets.chomp
+    puts 'Would you like to save? [y/n]'
+    answer = gets.chomp
 
-      condition = correct_guess
-      break if condition.length == 1
+    if answer.downcase == 'y'
+      puts 'What is your savegame file name?'
+      filename = gets.chomp.downcase
+      data = to_yaml
+      File.write(filename, data, mode: 'a')
+    else
+      loop do
+        print 'Enter your guess: '
+        @guess_character = gets.chomp
 
-      puts condition
+        condition = correct_guess
+        break if condition.length == 1
+
+        puts condition
+      end
+      process_guess
     end
-    process_guess
   end
 
   def correct_guess
