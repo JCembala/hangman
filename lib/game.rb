@@ -2,16 +2,17 @@
 
 require_relative 'words'
 require_relative 'graphics'
+require 'yaml'
 
 # Manages game: starting, looping, ending
 class Game
   MAX_GAME_TURN = 12
 
-  def initialize
-    @word = ''
-    @hidden_word = ''
-    @guess_character = ''
-    @wrong_turns = 0
+  def initialize(data = {})
+    @word = data[:word]
+    @hidden_word = data[:hidden_words]
+    @guess_character = data[:guess_character]
+    @wrong_turns = data[:wrong_turns]
   end
 
   def start
