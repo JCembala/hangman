@@ -11,7 +11,7 @@ class Game
   def initialize(data = {})
     @word = data[:word]
     @hidden_word = data[:hidden_words]
-    @guess_character = data[:guess_character]
+    @guess_character = ''
     @wrong_turns = data[:wrong_turns]
   end
 
@@ -34,12 +34,11 @@ class Game
   private
 
   def to_yaml
-    YAML.dump ({
-      word: @word,
-      hidden_words: @hidden_word,
-      guess_character: @guess_character,
-      wrong_turns: @wrong_turns
-    })
+    YAML.dump({
+                word: @word,
+                hidden_words: @hidden_word,
+                wrong_turns: @wrong_turns
+              })
   end
 
   def setup_game
