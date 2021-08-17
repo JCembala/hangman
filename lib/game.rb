@@ -23,10 +23,12 @@ class Game
 
     loop do
       print_ui
-      ask_for_guess
+      break if ask_for_guess == 'save'
 
       break if game_over
     end
+
+    save_game unless game_over
 
     print_game_over_message
   end
@@ -59,29 +61,31 @@ class Game
     puts '1. One character long'
     puts '2. Only letters allowed'
     puts '----------------------------------------------------------------'
+    puts 'Any moment in game you can type \'save\' to save a game'
+    puts '----------------------------------------------------------------'
   end
 
   def ask_for_guess
-    puts 'Would you like to save? [y/n]'
-    answer = gets.chomp
+    loop do
+      print 'Enter your guess: '
+      @guess_character = gets.chomp
 
-    if answer.downcase == 'y'
-      puts 'What is your savegame file name?'
-      filename = gets.chomp.downcase
-      data = to_yaml
-      File.write(filename, data, mode: 'a')
-    else
-      loop do
-        print 'Enter your guess: '
-        @guess_character = gets.chomp
+      return 'save' if @guess_character.downcase == 'save'
 
-        condition = correct_guess
-        break if condition.length == 1
+      condition = correct_guess
+      break if condition.length == 1
 
-        puts condition
-      end
-      process_guess
+      puts condition
     end
+    process_guess
+  end
+
+  def save_game
+    system 'clear'
+    puts 'What is your savegame file name?'
+    filename = gets.chomp.downcase << '.txt'
+    data = to_yaml
+    File.write(filename, data, mode: 'a')
   end
 
   def correct_guess
@@ -122,6 +126,8 @@ class Game
   end
 
   def print_game_over_message
+    return unless game_over
+
     print_ui
     puts 'Game over. You won!' if game_over == :win
     puts 'Game over. You lose!' if game_over == :lose
