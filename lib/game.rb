@@ -8,7 +8,7 @@ require 'yaml'
 class Game
   MAX_GAME_TURN = 12
 
-  def initialize(data = {})
+  def initialize(data)
     @word = data[:word]
     @hidden_word = data[:hidden_words]
     @guess_character = ''
@@ -16,8 +16,9 @@ class Game
   end
 
   def start
-    setup_game
     show_welcome_message
+    load_game_answear = gets.chomp.downcase
+    load_game_answear == 'y' ? load_game : start_new_game
     puts 'Press [ENTER] to start...'
     gets
 
@@ -43,12 +44,31 @@ class Game
               })
   end
 
-  def setup_game
+  def from_yaml(path)
+    data = YAML.load(path)
+    initialize(data)
+  end
+
+  def start_new_game
     @wrong_turns = 0
     words = Words.new('wordslist.txt')
     @word = words.randomize_word
     create_hidden_word
     @word.upcase!
+  end
+
+  def save_game
+    system 'clear'
+    puts 'Create a name for your save:'
+    filename = gets.chomp.downcase << '.yml'
+    data = to_yaml
+    File.write(filename, data, mode: 'a')
+  end
+
+  def load_game
+    puts 'What is your save filename?'
+    filename = gets.chomp.downcase << '.yml'
+    from_yaml(File.read(filename))
   end
 
   def show_welcome_message
@@ -63,6 +83,7 @@ class Game
     puts '----------------------------------------------------------------'
     puts 'Any moment in game you can type \'save\' to save a game'
     puts '----------------------------------------------------------------'
+    puts 'Would you like to load saved game? [y/n]'
   end
 
   def ask_for_guess
@@ -78,14 +99,6 @@ class Game
       puts condition
     end
     process_guess
-  end
-
-  def save_game
-    system 'clear'
-    puts 'What is your savegame file name?'
-    filename = gets.chomp.downcase << '.txt'
-    data = to_yaml
-    File.write(filename, data, mode: 'a')
   end
 
   def correct_guess
