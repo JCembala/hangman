@@ -10,3 +10,6 @@ If you want to know more: [Wikipedia](https://en.wikipedia.org/wiki/Hangman_(gam
 
 ## Idea
 Assignment from [The Odin Project](https://www.theodinproject.com/)
+
+
+[![Run on Repl.it](https://repl.it/badge/github/JCembala/hangman)](https://repl.it/github/JCembala/hangman)
